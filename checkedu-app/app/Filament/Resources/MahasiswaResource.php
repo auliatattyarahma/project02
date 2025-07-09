@@ -9,81 +9,72 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class MahasiswaResource extends Resource
 {
-    protected static ?string $model = Mahasiswa::class;
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationLabel = 'Daftar Mahasiswa';
+    protected static ?string $navigationGroup = 'Pengguna';
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
+    // Ganti fungsi form() Anda dengan ini
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                // Input untuk Nama
                 Forms\Components\TextInput::make('nama')
-                    ->required()
-                    ->maxLength(255),
-
-                // Input untuk NIM
+                    ->required(),
                 Forms\Components\TextInput::make('nim')
+                    ->label('NIS')
                     ->required()
                     ->unique(ignoreRecord: true),
-
-                // Input untuk Kelas
-                Forms\Components\TextInput::make('kelas')
-                    ->required()
-                    ->maxLength(255),
-
-                // Input untuk Email
+                Forms\Components\Select::make('rombel') // <-- PERUBAHAN DI SINI
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                        '7' => '7',
+                        '8' => '8',
+                        '9' => '9',
+                        '10' => '10',
+                        '11' => '11',
+                        '12' => '12',
+                    ])
+                    ->required(),
                 Forms\Components\TextInput::make('email')
-                    ->email() // Validasi format email
+                    ->email()
                     ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255),
+                    ->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('nomor_telepon')
+                    ->tel(),
             ]);
     }
 
+    // Ganti fungsi table() Anda dengan ini
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                // Kolom untuk Nama
-                Tables\Columns\TextColumn::make('nama')
-                    ->searchable()
-                    ->sortable(),
-
-                // Kolom untuk NIM
-                Tables\Columns\TextColumn::make('nim')
-                    ->searchable(),
-
-                // Kolom untuk Kelas
-                Tables\Columns\TextColumn::make('kelas')
-                    ->searchable(),
-
-                // Kolom untuk Email
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama')->searchable(),
+                Tables\Columns\TextColumn::make('nim')->label('NIS')->searchable(),
+                Tables\Columns\TextColumn::make('rombel'), // Kolom baru
+                Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\TextColumn::make('nomor_telepon'), // Kolom baru
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
