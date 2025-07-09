@@ -10,11 +10,16 @@ use Spatie\Permission\Traits\HasRoles; // <-- 1. TAMBAHKAN USE STATEMENT INI
 
 class User extends Authenticatable
 {
+    public function dosen()
+    {
+        return $this->hasOne(\App\Models\Dosen::class, 'user_id');
+    }
+
     use HasFactory, Notifiable, HasRoles; // <-- 2. TAMBAHKAN TRAIT HasRoles DI SINI
 
     /**
      * The attributes that are mass assignable.
-     *
+     *a
      * @var array<int, string>
      */
     protected $fillable = [

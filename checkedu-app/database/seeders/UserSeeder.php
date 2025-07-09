@@ -29,9 +29,11 @@ class UserSeeder extends Seeder
         // Membuat profil Dosen yang terhubung dengan User di atas
         Dosen::create([
             'user_id' => $userDosen->id,
-            'name' => 'Dr. Amalia Rahmah, S.T., M.T.', // Nama ini akan tampil di resource
-            'nip' => '402018701',
+            'nama' => 'Dr. Amalia Rahmah, S.T., M.T.', // Nama ini akan tampil di resource
+            'nidn' => '402018701',
+            'email' => 'amaliarahmah@universitas.ac.id',
             'jenis_kelamin' => 'Perempuan',
+            'password' => Hash::make('12345'),
         ]);
     }
 }
